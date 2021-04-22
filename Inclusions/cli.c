@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <sys/types.h>
 #include "cli.h"
 
 extern char buffer[BUFFER_SIZE];
@@ -82,27 +88,24 @@ Command parseCommand() {
 
 int sendMessage(int sockd, Command msg) {
 	int success;
-	success = write(sockd, &msg, sizeof(msg));
+
+	success = write(sockd, msg.commandMsg, strnlen(msg.commandMsg,BUFFER_SIZE));
 	if (success == -1){
 		perror("Failed sending the file");
 		exit(0);
 	}
-
-	memset(&msg, 0, sizeof(msg));
+	// memset(&msg, 0, sizeof(msg));
 	return 1;
 
 }
 
-Command awaitMessage(int sockd) {
+void awaitMessage(int sockd, char *data) {
 	int success;
-	Command msg;
-	success = read(sockd, &msg, sizeof(msg));
-	
+	success = read(sockd, data, BUFFER_SIZE);
+
 	if (success == -1){
 		perror("Failed to receive file");
 		exit(0);
 	}
-	
-	printf("Received something");
-	return msg;
+
 }

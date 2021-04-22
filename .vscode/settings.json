@@ -2,6 +2,9 @@
 	"files.associations": {
 		"socket.h": "c",
 		"sockets.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"types.h": "c",
+		"stdlib.h": "c",
+		"cli.h": "c"
 	}
 }

@@ -3,7 +3,10 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
-#include "sockets.h"
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <unistd.h>
 #include "cli.h"
 
 void checkDescriptor(int sockd) {
@@ -14,14 +17,14 @@ void checkDescriptor(int sockd) {
 }
 
 void checkConnection(int connection){
-	if(connection != 0){
+	if(connection < 0){
 		perror("Failed to connect to server");
 		exit(0);
 	}
 }
 
 void checkBinding(int sockbind){
-	if(sockbind != 0){
+	if(sockbind < 0){
 		perror("Failed to bind socket");
 		exit(0);
 	}	

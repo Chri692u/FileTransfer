@@ -1,2 +1,2 @@
-CLINT: gcc client.c inclusions/cli.c inclusions/sockets.c -o client.out
+CLIENT: gcc client.c inclusions/cli.c inclusions/sockets.c -o client.out
 SERVER: gcc server.c inclusions/cli.c inclusions/sockets.c -o server.out

@@ -1,4 +1,4 @@
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 256
 
 typedef struct Command {
 	int type;
@@ -21,4 +21,4 @@ void skipWhiteSpace();
 void getNextToken();
 Command parseCommand();
 int sendMessage(int,Command);
-Command awaitMessage(int);
+void awaitMessage(int, char*);

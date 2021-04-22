@@ -2,7 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
-#include <arpa/inet.h>;
+#include <arpa/inet.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <unistd.h>
 #include "inclusions/cli.h"
 #include "Inclusions/sockets.h"
 
@@ -12,30 +16,41 @@ char buffer[BUFFER_SIZE];
 int lh;
 
 int main(){
-	
+
 	int running = 1, send, sockd, connection;
 	Command command;
 	char* serverIP = "127.0.0.1";
-	struct sockaddr_in server;
+	struct sockaddr_in serverAdress;
+	struct hostent *server;
 
 	printf("Command Line Interface is running.\n> ");
-	do {
+
+	// do {
+
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
-		
+
+		server = gethostbyname(serverIP);
+		if(server == NULL){
+			perror("Failed, could not find host");
+			exit(0);
+		}
+		serverAdress.sin_family = AF_INET;
+		serverAdress.sin_addr.s_addr = htonl(INADDR_ANY);
+		serverAdress.sin_port = htons(8080);
+
+
 		/*Zero memory*/
-		memset(&server, 0, sizeof(server));
+		memset((char *)&server, 0, sizeof(server));
 
-		server.sin_addr.s_addr = inet_addr(serverIP);
-		server.sin_family = AF_INET;
-		server.sin_port = htons(8080);
-
-		connection = connect(sockd, (struct sock_addr*)&server, sizeof(server));
+		connection = connect(sockd, (struct sockaddr* )&serverAdress, sizeof(serverAdress));
 		checkConnection(connection);
- 
+
 		/*Command Line Interface*/
 		readNextLine();
 		command = parseCommand();
+
+
 		switch (command.type){
 		case 0:
 			printf("\tQuiting...\n");
@@ -65,7 +80,8 @@ int main(){
 		default:
 			printf("\tYou shouldnt be here\n");
 		}
-	} while (running);
-	
+		close(sockd);
+	// } while (running);
+
 	exit(1);
 }
