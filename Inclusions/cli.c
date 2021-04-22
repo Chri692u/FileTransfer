@@ -79,3 +79,30 @@ Command parseCommand() {
 	command.commandMsg = token;
 	return command;
 }
+
+int sendMessage(int sockd, Command msg) {
+	int success;
+	success = write(sockd, &msg, sizeof(msg));
+	if (success == -1){
+		perror("Failed sending the file");
+		exit(0);
+	}
+
+	memset(&msg, 0, sizeof(msg));
+	return 1;
+
+}
+
+Command awaitMessage(int sockd) {
+	int success;
+	Command msg;
+	success = read(sockd, &msg, sizeof(msg));
+	
+	if (success == -1){
+		perror("Failed to receive file");
+		exit(0);
+	}
+	
+	printf("Received something");
+	return msg;
+}

@@ -20,3 +20,5 @@ void readNextLine();
 void skipWhiteSpace();
 void getNextToken();
 Command parseCommand();
+int sendMessage(int,Command);
+Command awaitMessage(int);

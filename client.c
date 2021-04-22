@@ -14,7 +14,7 @@ int lh;
 
 int main(){
 	
-	int running = 1, sockd, connection;
+	int running = 1, send, sockd, connection;
 	Command command;
 	char* serverIP = "127.0.0.1";
 	struct sockaddr_in server;
@@ -33,8 +33,7 @@ int main(){
 
 		connection = connect(sockd, (struct sock_addr*)&server, sizeof(server));
 		checkConnection(connection);
-		// WOO
-
+ 
 		/*Command Line Interface*/
 		readNextLine();
 		command = parseCommand();
@@ -53,7 +52,10 @@ int main(){
 			printf("\tHelp :D\n");
 			break;
 		case 4:
-			printf("\tSending file: %s to server\n", command.commandMsg);
+			send = sendMessage(sockd, command);
+			if(send){
+				printf("\tSuccessfully sent file: %s to server\n", command.commandMsg);
+			}
 			break;
 		case 5:
 			printf("\tRequesting file: %s from server\n", command.commandMsg);

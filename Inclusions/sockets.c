@@ -1,3 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include "sockets.h"
+#include "cli.h"
+
 void checkDescriptor(int sockd) {
 	if (sockd == -1) {
 		perror("Failed to create socket");

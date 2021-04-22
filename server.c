@@ -6,9 +6,15 @@
 #include "inclusions/cli.h"
 #include "Inclusions/sockets.h"
 
+/*Globals*/
+char token[BUFFER_SIZE];
+char buffer[BUFFER_SIZE];
+int lh;
+
 int main(){
 	int running = 1, sockd, sockbind, connection, len;
 	struct sockaddr_in server, client;
+	Command data;
 
 	do {
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
@@ -38,7 +44,10 @@ int main(){
 		connection = accept(sockd, (struct sock_addr*)&client, &len);
 		checkAccept(connection);
 
+		data = awaitMessage(sockd);
+		printf("received type %d, msg %s", data.type, data.commandMsg);
+		
 	} while (running);
 	/*Finishing up...*/
-	close(sockd);
+	pclose(sockd);
 }
