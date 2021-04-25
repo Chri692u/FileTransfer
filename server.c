@@ -4,11 +4,13 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
-#include "inclusions/cli.h"
+#include "Inclusions/cli.h"
 #include "Inclusions/sockets.h"
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <dirent.h>
+#include "Inclusions/files.h"
 
 /*Globals*/
 char token[MESSAGE_SIZE];
@@ -56,12 +58,24 @@ int main(){
 			break;
 		case Send:
 			printf("\tIncoming file: %s\n", msg.commandMsg);
+			if (checkFile(msg.commandMsg)){
+				printf("\tFile OK - Sending file\n");
+			}
+			printf("\tFile not OK - Sending error message\n");
 			break;
 		case Request:
 			printf("\tClient requested file: %s\n", msg.commandMsg);
+			if(!checkFile(msg.commandMsg)){
+				printf("File OK - Accepting request\n");
+			}
+			printf("\tFile not OK - Sending error message\n");
 			break;
 		case LsFolder:
-			printf("\tList of files in folder: %s\n", msg.commandMsg);
+			if (!checkFolder(msg.commandMsg)){
+				printf("\tList of files in folder: %s\n", msg.commandMsg);
+				system("ls");
+			}
+			printf("\tDirectory not OK - Sending error message\n");
 			break;
 		}
 		close(sockd);
