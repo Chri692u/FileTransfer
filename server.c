@@ -18,13 +18,13 @@ char buffer[MESSAGE_SIZE];
 int lh;
 
 int main(){
-	int running = 1, sockd, sockbind, len, newsockd;
+	int running = 1, sockd, sockbind, len, newsockd,send;
 	struct sockaddr_in server, client;
 	socklen_t sockSize;
 	Command msg;
 
 
-	do {
+	/*do {*/
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
 
@@ -59,9 +59,14 @@ int main(){
 		case Send:
 			printf("\tIncoming file: %s\n", msg.commandMsg);
 			if (checkFile(msg.commandMsg)){
-				printf("\tFile OK - Sending file\n");
+				printf("\tFile OK - Sending reply\n");
+				printf("%d",msg.type);
+				msg.type = NoFile;
+				send = sendMessage(sockd,msg);
+			} else {
+				printf("\tFile not OK - Sending error message\n");
 			}
-			printf("\tFile not OK - Sending error message\n");
+
 			break;
 		case Request:
 			printf("\tClient requested file: %s\n", msg.commandMsg);
@@ -78,8 +83,9 @@ int main(){
 			printf("\tDirectory not OK - Sending error message\n");
 			break;
 		}
+		close(newsockd);
 		close(sockd);
-	} while (running);
+	/*} while (running);*/
 	/*Finishing up...*/
 	close(sockd);
 }

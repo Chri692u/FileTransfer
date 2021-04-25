@@ -18,14 +18,14 @@ int lh;
 int main(){
 
 	int running = 1, send, sockd, connection;
-	Command command;
+	Command command,msg;
 	char* serverIP = "127.0.0.1";
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
 
 	printf("Command Line Interface is running.\n> ");
 
-	do {
+	/*do {*/
 
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
@@ -80,7 +80,9 @@ int main(){
 		default:
 			printf("\tYou shouldnt be here\n");
 		}
+
+	
 		close(sockd);
-	} while(running);
+	/*} while(running);*/
 	exit(1);
 }
