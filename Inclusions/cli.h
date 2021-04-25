@@ -12,7 +12,10 @@ enum CommandType{
 	Help,
 	Send,
 	Request,
-	LsFolder
+	LsFolder,
+	IsFile,
+	NoFile,
+	SendFile
 };
 
 /*Prototypes*/

@@ -5,9 +5,9 @@
 
 int checkFile(char* fileName){
 	if(access(fileName, F_OK) == 0) {
-		return 0;
+		return IsFile;
 	}
-	return 1;
+	return NoFile;
 }
 
 int checkFolder(char* folderName){
@@ -15,5 +15,5 @@ int checkFolder(char* folderName){
 	if (directory){
 		return 0;
 	}
-	return 0;
+	return 1;
 }

@@ -36,3 +36,17 @@ void checkAccept(int connection){
 		exit(0);
 	}
 }
+
+void checkSend(int send){
+	if(send == -1){
+		perror("Failed to send data");
+		exit(0);
+	}
+}
+
+void checkReply(int reply){
+	if(reply == -1){
+		perror("Failed to receive reply");
+		exit(0);
+	}
+}
