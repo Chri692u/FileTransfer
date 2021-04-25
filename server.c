@@ -11,19 +11,19 @@
 #include <unistd.h>
 
 /*Globals*/
-char token[BUFFER_SIZE];
-char buffer[BUFFER_SIZE];
+char token[MESSAGE_SIZE];
+char buffer[MESSAGE_SIZE];
 int lh;
 
 int main(){
-	int running = 1, option = 1, sockd, sockbind, len, newsockd;
+	int running = 1, sockd, sockbind, len, newsockd;
 	struct sockaddr_in server, client;
-	char data[BUFFER_SIZE];
+	socklen_t sockSize;
+	Command msg;
 
 
-	// do {
+	do {
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
-		// setsockopt(sockd, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
 		checkDescriptor(sockd);
 
 		/*Zero memory*/
@@ -42,22 +42,16 @@ int main(){
 		printf("Server listening...\n");
 
 		/*Accept Data*/
-		len = sizeof(client);
+		sockSize = sizeof(client);
 
-		newsockd = accept(sockd, (struct sockaddr* )&client, &len);
-		printf("%d",newsockd);
+		newsockd = accept(sockd, (struct sockaddr* )&client, &sockSize);
 		checkAccept(newsockd);
-		// prinf("%d",newsockd);
 
-		
-
-		awaitMessage(newsockd, data);
-		printf("%s",data);
-	
-
-		// close(sockd);
-		// memset(&server, 0, sizeof(server));
-	// } while (running);
+		msg = awaitMessage(newsockd);
+		printf("type: %d\n",msg.type);
+		printf("msg: %s\n", msg.commandMsg);
+		close(sockd);
+	} while (running);
 	/*Finishing up...*/
 	close(sockd);
 }

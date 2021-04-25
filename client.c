@@ -11,8 +11,8 @@
 #include "Inclusions/sockets.h"
 
 /*Globals*/
-char token[BUFFER_SIZE];
-char buffer[BUFFER_SIZE];
+char token[MESSAGE_SIZE];
+char buffer[MESSAGE_SIZE];
 int lh;
 
 int main(){
@@ -25,7 +25,7 @@ int main(){
 
 	printf("Command Line Interface is running.\n> ");
 
-	// do {
+	do {
 
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
@@ -81,7 +81,6 @@ int main(){
 			printf("\tYou shouldnt be here\n");
 		}
 		close(sockd);
-	// } while (running);
-
+	} while(running);
 	exit(1);
 }

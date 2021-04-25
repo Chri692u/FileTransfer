@@ -1,8 +1,8 @@
-#define BUFFER_SIZE 256
+#define MESSAGE_SIZE 128
 
 typedef struct Command {
 	int type;
-	char* commandMsg;
+	char commandMsg[MESSAGE_SIZE];
 } Command;
 
 enum CommandType{
@@ -20,5 +20,5 @@ void readNextLine();
 void skipWhiteSpace();
 void getNextToken();
 Command parseCommand();
-int sendMessage(int,Command);
-void awaitMessage(int, char*);
+int sendMessage(int, Command);
+Command awaitMessage(int);
