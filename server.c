@@ -48,8 +48,22 @@ int main(){
 		checkAccept(newsockd);
 
 		msg = awaitMessage(newsockd);
-		printf("type: %d\n",msg.type);
-		printf("msg: %s\n", msg.commandMsg);
+
+		switch (msg.type)
+		{
+		case Ls:
+			printf("\tList of files:\n");
+			break;
+		case Send:
+			printf("\tIncoming file: %s\n", msg.commandMsg);
+			break;
+		case Request:
+			printf("\tClient requested file: %s\n", msg.commandMsg);
+			break;
+		case LsFolder:
+			printf("\tList of files in folder: %s\n", msg.commandMsg);
+			break;
+		}
 		close(sockd);
 	} while (running);
 	/*Finishing up...*/
