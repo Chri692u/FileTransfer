@@ -4,7 +4,7 @@ all: client server
 client: client.c
 	gcc client.c -o client.out -ansi -pedantic -g inclusions/sockets.c inclusions/cli.c
 server: server.c
-	gcc server.c -o server.out -ansi -pedantic -g inclusions/sockets.c inclusions/cli.c
+	gcc server.c -o server.out -ansi -pedantic -g inclusions/sockets.c inclusions/cli.c inclusions/files.c
 
 
 # # Src
