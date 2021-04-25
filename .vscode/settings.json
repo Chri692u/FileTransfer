@@ -5,6 +5,7 @@
 		"stdio.h": "c",
 		"types.h": "c",
 		"stdlib.h": "c",
-		"cli.h": "c"
+		"cli.h": "c",
+		"dirent.h": "c"
 	}
 }

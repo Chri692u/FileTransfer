@@ -24,7 +24,7 @@ int main(){
 	Command msg;
 
 
-	/*do {*/
+	do {
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
 
@@ -51,8 +51,7 @@ int main(){
 
 		msg = awaitMessage(newsockd);
 
-		switch (msg.type)
-		{
+		switch (msg.type){
 		case Ls:
 			printf("\tList of files:\n");
 			break;
@@ -60,9 +59,6 @@ int main(){
 			printf("\tIncoming file: %s\n", msg.commandMsg);
 			if (checkFile(msg.commandMsg)){
 				printf("\tFile OK - Sending reply\n");
-				printf("%d",msg.type);
-				msg.type = NoFile;
-				send = sendMessage(sockd,msg);
 			} else {
 				printf("\tFile not OK - Sending error message\n");
 			}
@@ -85,7 +81,8 @@ int main(){
 		}
 		close(newsockd);
 		close(sockd);
-	/*} while (running);*/
+	} while (running);
 	/*Finishing up...*/
+	close(newsockd);
 	close(sockd);
 }

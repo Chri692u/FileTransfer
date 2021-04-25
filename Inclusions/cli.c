@@ -99,7 +99,6 @@ int sendMessage(int sockd, Command msg) {
 	}
 	memset(&msg, 0, sizeof(msg));
 	return 1;
-
 }
 
 Command awaitMessage(int sockd) {

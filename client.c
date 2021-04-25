@@ -25,7 +25,7 @@ int main(){
 
 	printf("Command Line Interface is running.\n> ");
 
-	/*do {*/
+	do {
 
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
@@ -52,29 +52,32 @@ int main(){
 
 
 		switch (command.type){
-		case 0:
+		case Quit:
 			printf("\tQuiting...\n");
 			running = 0;
 			break;
-		case 1:
+		case Clear:
 			system("clear");
 			break;
-		case 2:
+		case Ls:
 			printf("\tList of files:\n");
+			send = sendMessage(sockd, command);
 			break;
-		case 3:
+		case Help:
 			printf("\tHelp :D\n");
 			break;
-		case 4:
+		case Send:
 			send = sendMessage(sockd, command);
 			if(send){
 				printf("\tSuccessfully sent file: %s to server\n", command.commandMsg);
 			}
 			break;
-		case 5:
+		case Request:
+			send = sendMessage(sockd, command);
 			printf("\tRequesting file: %s from server\n", command.commandMsg);
 			break;
-		case 6:
+		case LsFolder:
+			send = sendMessage(sockd, command);
 			printf("List of files in folder: %s\n", command.commandMsg);
 			break;
 		default:
@@ -83,6 +86,6 @@ int main(){
 
 	
 		close(sockd);
-	/*} while(running);*/
+	} while(running);
 	exit(1);
 }

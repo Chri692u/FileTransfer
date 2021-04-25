@@ -17,3 +17,11 @@ int checkFolder(char* folderName){
 	}
 	return 1;
 }
+
+void ls(void){
+
+}
+
+void lsf(char* folderName){
+
+}
