@@ -25,3 +25,5 @@ void getNextToken();
 Message parseMessage();
 int sendMessage(int, Message);
 Message awaitMessage(int);
+int sendReply(int sockd, char* reply);
+int awaitReply(int sockd, char* reply);

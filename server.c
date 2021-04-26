@@ -18,7 +18,7 @@ char buffer[MESSAGE_SIZE];
 int lh;
 
 int main(){
-	int running = 1, sockd, sockbind, len, newsockd,send;
+	int running = 1, sockd, sockbind, len, newsockd, send;
 	struct sockaddr_in server, client;
 	socklen_t sockSize;
 	Message msg;
@@ -59,6 +59,7 @@ int main(){
 			printf("\tIncoming file: %s\n", msg.Message);
 			if (checkFile(msg.Message)){
 				printf("\tFile OK - Sending reply\n");
+				send = sendReply(sockd, "fuck you");
 				break;
 			}
 			printf("\tFile not OK - Sending error message\n");

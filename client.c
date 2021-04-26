@@ -17,8 +17,9 @@ int lh;
 
 int main(){
 
-	int running = 1, send, sockd, connection;
+	int running = 1, send, await, sockd, connection;
 	Message  msg;
+	char reply[MESSAGE_SIZE];
 	char* serverIP = "127.0.0.1";
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
@@ -70,6 +71,8 @@ int main(){
 			send = sendMessage(sockd, msg);
 			if(send){
 				printf("\tSuccessfully sent file: %s to server\n", msg.Message);
+				await = awaitReply(sockd, reply);
+				printf("%s", reply);
 			}
 			break;
 		case Request:

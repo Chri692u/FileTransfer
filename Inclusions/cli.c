@@ -92,6 +92,8 @@ int sendMessage(int sockd, Message msg) {
 	sprintf(type, "%d",msg.type);
 	success = write(sockd, type, sizeof(type));
 	success = write(sockd, msg.Message, strnlen(msg.Message, MESSAGE_SIZE));
+	checkSuccess(success);
+
 	return 1;
 }
 
@@ -104,7 +106,26 @@ Message awaitMessage(int sockd) {
 	success = read(sockd, data, strnlen(data, MESSAGE_SIZE));
 	msg.type = strtol(data, &type, 10);
 	success = read(sockd, msg.Message, MESSAGE_SIZE);
-
+	checkSuccess(success);
 	memset(&data, 0, sizeof(data));
 	return msg;
+}
+
+int sendReply(int sockd, char* reply){
+	int success;
+
+	success = write(sockd, reply, strnlen(reply, MESSAGE_SIZE));
+	checkSuccess(success);
+
+	return 1;
+}
+
+int awaitReply(int sockd, char* reply){
+	int success;
+	memset(&reply, 0, sizeof(reply));
+
+	success = read(sockd, reply, strnlen(reply, MESSAGE_SIZE));
+	checkSuccess(success);
+
+	return 1;
 }
