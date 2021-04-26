@@ -35,7 +35,7 @@ int main(){
 		server.sin_family = AF_INET;
 		server.sin_addr.s_addr = INADDR_ANY;
 		server.sin_port = htons(8080);
-		
+
 		/*Binding the socket*/
 		sockbind = bind(sockd, (struct sockaddr* )&server, sizeof(server));
 		checkBinding(sockbind);
