@@ -92,8 +92,8 @@ int sendMessage(int sockd, Message msg) {
 
 	sprintf(type, "%d",msg.type);
 	strncat(type, msg.Message, MESSAGE_SIZE);
-	puts(type);
 	success = write(sockd, type, MESSAGE_SIZE);
+
 	checkSuccess(success);
 
 	return 1;
@@ -118,10 +118,8 @@ Message awaitMessage(int sockd) {
 
 int sendReply(int sockd, char* reply){
 	int success;
-	puts(reply);
 	success = write(sockd, reply, sizeof(reply));
 	checkSuccess(success);
-
 	return 1;
 }
 
@@ -129,8 +127,9 @@ int awaitReply(int sockd, char* reply){
 	int success;
 	char data[MESSAGE_SIZE];
 
-	success = read(sockd, data, strnlen(data, MESSAGE_SIZE));
-	printf("\t%s\n",data);
+	success = read(sockd, reply, MESSAGE_SIZE);
+	memset(&data, 0, sizeof(data));
+
 	checkSuccess(success);
 
 	return 1;
