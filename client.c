@@ -84,7 +84,7 @@ int main(){
 			printf("\tYou shouldnt be here\n");
 		}
 
-	
+
 		close(sockd);
 	} while(running);
 	exit(1);
