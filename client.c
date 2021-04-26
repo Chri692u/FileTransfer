@@ -26,7 +26,7 @@ int main(){
 
 	printf("Command Line Interface is running.\n> ");
 
-	do {
+	/*do {*/
 
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
@@ -71,8 +71,6 @@ int main(){
 			send = sendMessage(sockd, msg);
 			if(send){
 				printf("\tSuccessfully sent file: %s to server\n", msg.Message);
-				await = awaitReply(sockd, reply);
-				printf("%s", reply);
 			}
 			break;
 		case Request:
@@ -87,6 +85,6 @@ int main(){
 			printf("\tYou shouldnt be here\n");
 		}
 		close(sockd);
-	} while(running);
+	/*} while(running);*/
 	exit(1);
 }
