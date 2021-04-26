@@ -27,7 +27,7 @@ void checkBinding(int sockbind){
 	if(sockbind < 0){
 		perror("Failed to bind socket");
 		exit(0);
-	}	
+	}
 }
 
 void checkAccept(int connection){

@@ -83,6 +83,7 @@ Message parseMessage() {
 	}
 	getNextToken();
 	strncpy(msg.Message, token, sizeof(token));
+
 	return msg;
 }
 
@@ -92,15 +93,14 @@ int sendMessage(int sockd, Message msg) {
 
 	sprintf(type, "%d",msg.type);
 	strncat(type, msg.Message, MESSAGE_SIZE);
-	success = write(sockd, type, MESSAGE_SIZE);
 
+	success = write(sockd, type, MESSAGE_SIZE);
 	checkSuccess(success);
 
 	return 1;
 }
 
 Message awaitMessage(int sockd) {
-
 	int success;
 	char data[MESSAGE_SIZE];
 	char* type;
@@ -113,13 +113,16 @@ Message awaitMessage(int sockd) {
 	strncpy(msg.Message,type,sizeof(msg.Message));
 
 	memset(&data, 0, sizeof(data));
+
 	return msg;
 }
 
 int sendReply(int sockd, char* reply){
 	int success;
+
 	success = write(sockd, reply, sizeof(reply));
 	checkSuccess(success);
+
 	return 1;
 }
 
@@ -128,8 +131,9 @@ int awaitReply(int sockd, char* reply){
 	char data[MESSAGE_SIZE];
 
 	success = read(sockd, reply, MESSAGE_SIZE);
-	memset(&data, 0, sizeof(data));
+	checkSuccess(success);
 
+	memset(&data, 0, sizeof(data));
 	checkSuccess(success);
 
 	return 1;
