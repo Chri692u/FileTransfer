@@ -92,11 +92,6 @@ int sendMessage(int sockd, Message msg) {
 	sprintf(type, "%d",msg.type);
 	success = write(sockd, type, sizeof(type));
 	success = write(sockd, msg.Message, strnlen(msg.Message, MESSAGE_SIZE));
-	if (success == -1){
-		perror("Failed sending the file");
-		exit(0);
-	}
-	/*memset(&msg, 0, sizeof(msg));*/
 	return 1;
 }
 
@@ -105,15 +100,10 @@ Message awaitMessage(int sockd) {
 	char data[MESSAGE_SIZE];
 	char* type;
 	Message msg;
+
 	success = read(sockd, data, strnlen(data, MESSAGE_SIZE));
 	msg.type = strtol(data, &type, 10);
-	printf("%d\n", msg.type);
 	success = read(sockd, msg.Message, MESSAGE_SIZE);
-
-	if (success == -1){
-		perror("Failed to receive file");
-		exit(0);
-	}
 
 	memset(&data, 0, sizeof(data));
 	return msg;

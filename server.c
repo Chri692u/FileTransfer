@@ -59,15 +59,15 @@ int main(){
 			printf("\tIncoming file: %s\n", msg.Message);
 			if (checkFile(msg.Message)){
 				printf("\tFile OK - Sending reply\n");
-			} else {
-				printf("\tFile not OK - Sending error message\n");
+				break;
 			}
-
+			printf("\tFile not OK - Sending error message\n");
 			break;
 		case Request:
 			printf("\tClient requested file: %s\n", msg.Message);
 			if(!checkFile(msg.Message)){
 				printf("File OK - Accepting request\n");
+				break;
 			}
 			printf("\tFile not OK - Sending error message\n");
 			break;
@@ -75,6 +75,7 @@ int main(){
 			if (!checkFolder(msg.Message)){
 				printf("\tList of files in folder: %s\n", msg.Message);
 				system("ls");
+				break;
 			}
 			printf("\tDirectory not OK - Sending error message\n");
 			break;

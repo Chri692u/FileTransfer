@@ -50,3 +50,10 @@ void checkReply(int reply){
 		exit(0);
 	}
 }
+
+void checkSuccess(int success){
+	if (success == -1){
+		perror("Failed to receive file");
+		exit(0);
+	}
+}

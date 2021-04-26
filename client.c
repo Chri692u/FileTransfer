@@ -23,7 +23,7 @@ int main(){
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
 
-	printf("Message Line Interface is running.\n> ");
+	printf("Command Line Interface is running.\n> ");
 
 	do {
 
@@ -83,8 +83,6 @@ int main(){
 		default:
 			printf("\tYou shouldnt be here\n");
 		}
-
-
 		close(sockd);
 	} while(running);
 	exit(1);
