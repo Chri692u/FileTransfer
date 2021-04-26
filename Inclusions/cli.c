@@ -56,65 +56,65 @@ void getNextToken(){
 	token[i] = '\0';
 }
 
-Command parseCommand() {
-	Command command;
+Message parseMessage() {
+	Message Message;
 	getNextToken();
 	if (strncmp(token, "quit", MESSAGE_SIZE) == 0) {
-		command.type = Quit;
-		return command; /*Return instantly*/
+		Message.type = Quit;
+		return Message; /*Return instantly*/
 	} else if (strncmp(token, "clear", MESSAGE_SIZE) == 0){
-		command.type = Clear;
-		return command;
+		Message.type = Clear;
+		return Message;
 	}  else if (strncmp(token, "ls", MESSAGE_SIZE) == 0){
-		command.type = Ls;
-		return command; /*ls can take 0 or 1 arguments*/
+		Message.type = Ls;
+		return Message; /*ls can take 0 or 1 arguments*/
 	} else if (strncmp(token, "help", MESSAGE_SIZE) == 0){
-		command.type = Help;
-		return command; /*No need for getting next token*/
+		Message.type = Help;
+		return Message; /*No need for getting next token*/
 	} else if (strncmp(token, "send", MESSAGE_SIZE) == 0){
-		command.type = Send;
+		Message.type = Send;
 	} else if (strncmp(token, "req", MESSAGE_SIZE) == 0){
-		command.type = Request;
+		Message.type = Request;
 	} else if (strncmp(token, "lsf", MESSAGE_SIZE) == 0){
-		command.type = LsFolder; /*ls can take 0 or 1 arguments*/
+		Message.type = LsFolder; /*ls can take 0 or 1 arguments*/
 		getNextToken();
-		strncpy(command.commandMsg, token, sizeof(token));
-		return command; 
+		strncpy(Message.Message, token, sizeof(token));
+		return Message; 
 	}
 	getNextToken();
-	strncpy(command.commandMsg, token, sizeof(token));
-	return command;
+	strncpy(Message.Message, token, sizeof(token));
+	return Message;
 }
 
-int sendMessage(int sockd, Command msg) {
+int sendMessage(int sockd, Message msg) {
 	int success;
 	char type[MESSAGE_SIZE];
-	type[0] = msg.type;
-
-	success = write(sockd, type, 1);
-	success = write(sockd, msg.commandMsg, strnlen(msg.commandMsg, MESSAGE_SIZE));
+	sprintf(type, "%d",msg.type);
+	success = write(sockd, type, sizeof(type));
+	success = write(sockd, msg.Message, strnlen(msg.Message, MESSAGE_SIZE));
 	if (success == -1){
 		perror("Failed sending the file");
 		exit(0);
 	}
-	memset(&msg, 0, sizeof(msg));
+	/*memset(&msg, 0, sizeof(msg));*/
 	return 1;
 }
 
-Command awaitMessage(int sockd) {
-	int success, type;
+Message awaitMessage(int sockd) {
+	int success;
 	char data[MESSAGE_SIZE];
-	Command command;
-	memset(&command, 0, sizeof(command));
+	char* type;
+	Message msg;
 	success = read(sockd, data, strnlen(data, MESSAGE_SIZE));
-	command.type = (int) data[0];
-	success = read(sockd, command.commandMsg, MESSAGE_SIZE);
+	msg.type = strtol(data, &type, 10);
+	printf("%d\n", msg.type);
+	success = read(sockd, msg.Message, MESSAGE_SIZE);
 
 	if (success == -1){
 		perror("Failed to receive file");
 		exit(0);
 	}
-	/*data[0] = '\n';*/
+
 	memset(&data, 0, sizeof(data));
-	return command;
+	return msg;
 }

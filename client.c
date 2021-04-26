@@ -18,12 +18,12 @@ int lh;
 int main(){
 
 	int running = 1, send, sockd, connection;
-	Command command,msg;
+	Message  msg;
 	char* serverIP = "127.0.0.1";
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
 
-	printf("Command Line Interface is running.\n> ");
+	printf("Message Line Interface is running.\n> ");
 
 	do {
 
@@ -46,12 +46,12 @@ int main(){
 		connection = connect(sockd, (struct sockaddr* )&serverAdress, sizeof(serverAdress));
 		checkConnection(connection);
 
-		/*Command Line Interface*/
+		/*Message Line Interface*/
 		readNextLine();
-		command = parseCommand();
+		msg = parseMessage();
 
 
-		switch (command.type){
+		switch (msg.type){
 		case Quit:
 			printf("\tQuiting...\n");
 			running = 0;
@@ -61,24 +61,24 @@ int main(){
 			break;
 		case Ls:
 			printf("\tList of files:\n");
-			send = sendMessage(sockd, command);
+			send = sendMessage(sockd, msg);
 			break;
 		case Help:
 			printf("\tHelp :D\n");
 			break;
 		case Send:
-			send = sendMessage(sockd, command);
+			send = sendMessage(sockd, msg);
 			if(send){
-				printf("\tSuccessfully sent file: %s to server\n", command.commandMsg);
+				printf("\tSuccessfully sent file: %s to server\n", msg.Message);
 			}
 			break;
 		case Request:
-			send = sendMessage(sockd, command);
-			printf("\tRequesting file: %s from server\n", command.commandMsg);
+			send = sendMessage(sockd, msg);
+			printf("\tRequesting file: %s from server\n", msg.Message);
 			break;
 		case LsFolder:
-			send = sendMessage(sockd, command);
-			printf("List of files in folder: %s\n", command.commandMsg);
+			send = sendMessage(sockd, msg);
+			printf("List of files in folder: %s\n", msg.Message);
 			break;
 		default:
 			printf("\tYou shouldnt be here\n");
