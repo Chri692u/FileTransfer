@@ -1,4 +1,4 @@
-#define MESSAGE_SIZE 128
+#define MESSAGE_SIZE 1028
 
 typedef struct Message {
 	int type;
