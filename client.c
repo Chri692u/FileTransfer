@@ -71,7 +71,6 @@ int main(){
 			send = sendMessage(sockd, msg);
 			if(send){
 				printf("\tSuccessfully sent file: %s to server\n", msg.Message);
-				await = awaitReply(sockd, reply);
 				printf("%s", reply);
 			}
 			break;
