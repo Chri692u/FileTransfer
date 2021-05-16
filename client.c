@@ -21,9 +21,11 @@ int main(){
 	Message  msg;
 	char reply[MESSAGE_SIZE];
 	char* serverIP = "127.0.0.1";
+	char* errType;
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
-
+	FILE *fp;
+	char *fileName = "test.txt";
 	printf("Command Line Interface is running.\n> ");
 
 	/*do {*/
@@ -68,22 +70,32 @@ int main(){
 				checkSend(serverReply);
 				printf("%s", reply);
 			}
-			
+
 			break;
 		case Help:
 			printf("\tHelp :D\n");
 			break;
 		case Send:
 			send = sendMessage(sockd, msg);
-			if(send){
-				printf("\tSuccessfully sent file: %s to server\n", msg.Message);
-				printf("%s", reply);
-				serverReply = awaitReply(sockd, reply);
-				checkSend(serverReply);
-				printf("\tServer reply: %s\n",reply);
-				break;
+			serverReply = awaitReply(sockd, reply);
+			checkSend(serverReply);
+
+			if(strtol(reply, &errType,10) == IsFile){
+				printf("File already exists on server\n");
+				exit(0);
 			}
-			perror("\tFailed sent file to server\n");
+
+
+			fp = fopen(msg.Message, "r");
+
+			if(fp == NULL){
+				perror("Error reading file");
+				exit(0);
+			}
+
+			sendFile(fp,sockd);
+
+			
 			break;
 		case Request:
 			send = sendMessage(sockd, msg);

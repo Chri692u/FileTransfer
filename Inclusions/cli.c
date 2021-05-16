@@ -13,6 +13,42 @@ extern char buffer[MESSAGE_SIZE];
 extern char token[MESSAGE_SIZE];
 extern int lh; /*Look ahead variable*/
 
+
+void sendFile(FILE *fp, int socket){
+	char data[BUFFER_SIZE] = {0};
+
+	while(fgets(data,BUFFER_SIZE,fp) != NULL){
+		if(send(socket,data,sizeof(data),0) == -1){
+			perror("Error sending data \n");
+			exit(0);
+		}
+		memset(data, BUFFER_SIZE, sizeof(data));
+	}
+}
+
+void writeFile(int socket, Message msg){
+	int n;
+	FILE *fp;
+	char chunk[BUFFER_SIZE];
+
+	fp = fopen(msg.Message, "w");
+	if(fp == NULL){
+		perror("Error writing file \n");
+		exit(0);
+	}
+
+	while(1){
+		n = recv(socket, chunk, BUFFER_SIZE, 0);
+		if(n <= 0){
+			break;
+		}
+		fprintf(fp, "%s", chunk);
+		memset(chunk,BUFFER_SIZE,sizeof(chunk));
+	}
+	return;
+}
+
+
 void readNextLine(){
 	int i = 0;
 	lh = 0;

@@ -58,13 +58,16 @@ int main(){
 			send = sendReply(newsockd, reply.Message);
 			break;
 		case Send:
+
 			printf("\tIncoming file: %s\n", msg.Message);
-			if (checkFile(msg.Message)){
-				printf("\tFile OK - Sending reply\n");
-				send = sendReply(newsockd, "LETS GOOOOOOOO");
+			if (checkFile(msg.Message) != IsFile){
+				writeFile(newsockd, msg);
+				printf("\tFile OK - Sending reply NOT WORKING\n");
 				break;
 			}
-			printf("\tFile not OK - Sending error message\n");
+			printf("\tFile not OK - Sending reply\n");
+			sendReply(newsockd, "7");
+
 			break;
 		case Request:
 			printf("\tClient requested file: %s\n", msg.Message);
