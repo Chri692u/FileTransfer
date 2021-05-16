@@ -63,6 +63,12 @@ int main(){
 		case Ls:
 			printf("\tList of files:\n");
 			send = sendMessage(sockd, msg);
+			if (send){
+				serverReply = awaitReply(sockd, reply);
+				checkSend(serverReply);
+				printf("%s", reply);
+			}
+			
 			break;
 		case Help:
 			printf("\tHelp :D\n");

@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <string.h>
 #include "cli.h"
 #include "files.h"
 
@@ -21,15 +22,31 @@ int checkFolder(char* folderName){
 	return 1;
 }
 
-Message ls(char* dir, int hidden, int list) {
-	struct dirent *d;
-	DIR *fn = opendir(dir);
-	if(!fn) {
-		if (errno = ENOENT){
-			perror("Directory does not exist:");
-		}
-		
+Message ls() {
+	struct dirent *df; /*Directory file*/
+	DIR *fn;
+	char cwd[DIR_LENGTH];
+	Message msg;
+
+ 	if(getcwd(cwd, sizeof(cwd)) == NULL){
+		 perror("CWD ERROR");
 	}
+	
+	fn = opendir(cwd); /*File Navigator*/
+	
+	if(!fn) {
+		perror("Unable to read directory");
+		exit(0);
+	}
+	while((df = readdir(fn)) != NULL){
+		if( (char)df->d_name[0] == '.'){
+			continue;
+		}
+		strncat(msg.Message, df->d_name, DIR_LENGTH);
+		strncat(msg.Message, "\n", DIR_LENGTH);
+	}
+	printf("ls : %s", msg.Message);
+	return msg;
 }
 
 void lsf(char* folderName){

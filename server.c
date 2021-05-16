@@ -22,6 +22,7 @@ int main(){
 	struct sockaddr_in server, client;
 	socklen_t sockSize;
 	Message msg;
+	Message reply;
 
 
 	/*do {*/
@@ -53,6 +54,8 @@ int main(){
 		switch (msg.type){
 		case Ls:
 			printf("\tList of files:\n");
+			reply = ls();
+			send = sendReply(newsockd, reply.Message);
 			break;
 		case Send:
 			printf("\tIncoming file: %s\n", msg.Message);
