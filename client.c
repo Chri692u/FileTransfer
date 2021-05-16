@@ -17,7 +17,7 @@ int lh;
 
 int main(){
 
-	int running = 1, send, await, sockd, connection;
+	int running = 1, send, serverReply, sockd, connection;
 	Message  msg;
 	char reply[MESSAGE_SIZE];
 	char* serverIP = "127.0.0.1";
@@ -26,7 +26,7 @@ int main(){
 
 	printf("Command Line Interface is running.\n> ");
 
-	do {
+	/*do {*/
 
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
@@ -72,7 +72,12 @@ int main(){
 			if(send){
 				printf("\tSuccessfully sent file: %s to server\n", msg.Message);
 				printf("%s", reply);
+				serverReply = awaitReply(sockd, reply);
+				checkSend(serverReply);
+				printf("\tServer reply: %s\n",reply);
+				break;
 			}
+			perror("\tFailed sent file to server\n");
 			break;
 		case Request:
 			send = sendMessage(sockd, msg);
@@ -86,6 +91,6 @@ int main(){
 			printf("\tYou shouldnt be here\n");
 		}
 		close(sockd);
-	} while(running);
+	/*} while(running);*/
 	exit(1);
 }

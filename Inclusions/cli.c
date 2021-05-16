@@ -57,41 +57,44 @@ void getNextToken(){
 }
 
 Message parseMessage() {
-	Message Message;
+	Message msg;
 	getNextToken();
 	if (strncmp(token, "quit", MESSAGE_SIZE) == 0) {
-		Message.type = Quit;
-		return Message; /*Return instantly*/
+		msg.type = Quit;
+		return msg; /*Return instantly*/
 	} else if (strncmp(token, "clear", MESSAGE_SIZE) == 0){
-		Message.type = Clear;
-		return Message;
+		msg.type = Clear;
+		return msg;
 	}  else if (strncmp(token, "ls", MESSAGE_SIZE) == 0){
-		Message.type = Ls;
-		return Message; /*ls can take 0 or 1 arguments*/
+		msg.type = Ls;
+		return msg; /*ls can take 0 or 1 arguments*/
 	} else if (strncmp(token, "help", MESSAGE_SIZE) == 0){
-		Message.type = Help;
-		return Message; /*No need for getting next token*/
+		msg.type = Help;
+		return msg; /*No need for getting next token*/
 	} else if (strncmp(token, "send", MESSAGE_SIZE) == 0){
-		Message.type = Send;
+		msg.type = Send;
 	} else if (strncmp(token, "req", MESSAGE_SIZE) == 0){
-		Message.type = Request;
+		msg.type = Request;
 	} else if (strncmp(token, "lsf", MESSAGE_SIZE) == 0){
-		Message.type = LsFolder; /*ls can take 0 or 1 arguments*/
+		msg.type = LsFolder; /*ls can take 0 or 1 arguments*/
 		getNextToken();
-		strncpy(Message.Message, token, sizeof(token));
-		return Message; 
+		strncpy(msg.Message, token, sizeof(token));
+		return msg;
 	}
 	getNextToken();
-	strncpy(Message.Message, token, sizeof(token));
-	return Message;
+	strncpy(msg.Message, token, sizeof(token));
+
+	return msg;
 }
 
 int sendMessage(int sockd, Message msg) {
 	int success;
 	char type[MESSAGE_SIZE];
+
 	sprintf(type, "%d",msg.type);
-	success = write(sockd, type, sizeof(type));
-	success = write(sockd, msg.Message, strnlen(msg.Message, MESSAGE_SIZE));
+	strncat(type, msg.Message, MESSAGE_SIZE);
+
+	success = write(sockd, type, MESSAGE_SIZE);
 	checkSuccess(success);
 
 	return 1;
@@ -103,18 +106,21 @@ Message awaitMessage(int sockd) {
 	char* type;
 	Message msg;
 
-	success = read(sockd, data, strnlen(data, MESSAGE_SIZE));
-	msg.type = strtol(data, &type, 10);
-	success = read(sockd, msg.Message, MESSAGE_SIZE);
+	success = read(sockd, data, sizeof(data));
 	checkSuccess(success);
+
+	msg.type = strtol(data, &type,10);
+	strncpy(msg.Message,type,sizeof(msg.Message));
+
 	memset(&data, 0, sizeof(data));
+
 	return msg;
 }
 
 int sendReply(int sockd, char* reply){
 	int success;
 
-	success = write(sockd, reply, strnlen(reply, MESSAGE_SIZE));
+	success = write(sockd, reply, sizeof(reply));
 	checkSuccess(success);
 
 	return 1;
@@ -122,9 +128,12 @@ int sendReply(int sockd, char* reply){
 
 int awaitReply(int sockd, char* reply){
 	int success;
-	memset(&reply, 0, sizeof(reply));
+	char data[MESSAGE_SIZE];
 
-	success = read(sockd, reply, strnlen(reply, MESSAGE_SIZE));
+	success = read(sockd, reply, MESSAGE_SIZE);
+	checkSuccess(success);
+
+	memset(&data, 0, sizeof(data));
 	checkSuccess(success);
 
 	return 1;
