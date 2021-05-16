@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <errno.h>
 #include <unistd.h>
 #include <dirent.h>
 #include "cli.h"
@@ -18,8 +21,15 @@ int checkFolder(char* folderName){
 	return 1;
 }
 
-void ls(void){
-
+Message ls(char* dir, int hidden, int list) {
+	struct dirent *d;
+	DIR *fn = opendir(dir);
+	if(!fn) {
+		if (errno = ENOENT){
+			perror("Directory does not exist:");
+		}
+		
+	}
 }
 
 void lsf(char* folderName){
