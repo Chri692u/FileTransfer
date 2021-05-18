@@ -141,7 +141,7 @@ int sendMessage(int sockd, Message msg) {
 	sprintf(type, "%d",msg.type);
 	strncat(type, msg.Message, MESSAGE_SIZE);
 
-	success = write(sockd, type, MESSAGE_SIZE);
+	success = write(sockd, type, sizeof(type));
 	checkSuccess(success);
 
 	return 1;
@@ -153,12 +153,14 @@ Message awaitMessage(int sockd) {
 	char* type;
 	Message msg;
 
+
 	success = read(sockd, data, sizeof(data));
+
 	checkSuccess(success);
 
 	msg.type = strtol(data, &type,10);
-	strncpy(msg.Message,type,sizeof(msg.Message));
 
+	strncpy(msg.Message,type,sizeof(msg.Message));
 	memset(&data, 0, sizeof(data));
 
 	return msg;
@@ -166,8 +168,7 @@ Message awaitMessage(int sockd) {
 
 int sendReply(int sockd, char* reply){
 	int success;
-
-	success = write(sockd, reply, sizeof(reply));
+	success = send(sockd, reply, sizeof(reply),0);
 	checkSuccess(success);
 
 	return 1;
@@ -175,12 +176,9 @@ int sendReply(int sockd, char* reply){
 
 int awaitReply(int sockd, char* reply){
 	int success;
-	char data[MESSAGE_SIZE];
 
-	success = read(sockd, reply, MESSAGE_SIZE);
-	checkSuccess(success);
-
-	memset(&data, 0, sizeof(data));
+	success = recv(sockd, reply, sizeof(reply),0);
+	puts(reply);
 	checkSuccess(success);
 
 	return 1;

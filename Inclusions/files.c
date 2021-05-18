@@ -31,9 +31,9 @@ Message ls() {
  	if(getcwd(cwd, sizeof(cwd)) == NULL){
 		 perror("CWD ERROR");
 	}
-	
+
 	fn = opendir(cwd); /*File Navigator*/
-	
+
 	if(!fn) {
 		perror("Unable to read directory");
 		exit(0);
@@ -45,7 +45,6 @@ Message ls() {
 		strncat(msg.Message, df->d_name, DIR_LENGTH);
 		strncat(msg.Message, "\n", DIR_LENGTH);
 	}
-	printf("ls : %s", msg.Message);
 	return msg;
 }
 
@@ -72,6 +71,5 @@ Message lsf(char* folderName){
 		strncat(msg.Message, df->d_name, DIR_LENGTH);
 		strncat(msg.Message, "\n", DIR_LENGTH);
 	}
-	printf("lsf : %s", msg.Message);
 	return msg;
 }
