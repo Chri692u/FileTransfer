@@ -49,6 +49,24 @@ Message ls() {
 	return msg;
 }
 
-void lsf(char* folderName){
+Message lsf(char* folderName){
+	struct dirent *df;
+	DIR *fn;
+	char cwd[DIR_LENGTH];
+	Message msg;
 
+	if(getcwd(cwd, sizeof(cwd)) == NULL){
+		perror("CWD ERROR");
+	}
+	fn = opendir(cwd);
+	if(!fn){
+		perror("Unable to read directory");
+		exit(0);
+	}
+	while ((df = readdir(fn)) != NULL){
+		strncat(msg.Message, df->d_name, DIR_LENGTH);
+		strncat(msg.Message, "\n", DIR_LENGTH);
+	}
+	printf("lsf : %s", msg.Message);
+	return msg;
 }
