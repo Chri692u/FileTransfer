@@ -95,11 +95,20 @@ int main(){
 
 			sendFile(fp,sockd);
 
-			
 			break;
 		case Request:
-			send = sendMessage(sockd, msg);
 			printf("\tRequesting file: %s from server\n", msg.Message);
+			send = sendMessage(sockd, msg);
+			serverReply = awaitReply(sockd, reply);
+			checkSend(serverReply);
+
+			if(strtol(reply, &errType,10) == NoFile){
+				printf("File does not exist on server\n");
+				exit(0);
+			}
+
+			writeFile(sockd, msg);
+
 			break;
 		case LsFolder:
 			printf("List of files in folder: %s\n", msg.Message);

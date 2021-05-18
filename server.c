@@ -23,6 +23,7 @@ int main(){
 	socklen_t sockSize;
 	Message msg;
 	Message reply;
+	FILE *fp;
 
 
 	/*do {*/
@@ -58,10 +59,11 @@ int main(){
 			send = sendReply(newsockd, reply.Message);
 			break;
 		case Send:
-
 			printf("\tIncoming file: %s\n", msg.Message);
 			if (checkFile(msg.Message) != IsFile){
+				sendReply(newsockd, "8");
 				writeFile(newsockd, msg);
+
 				printf("\tFile OK - Sending reply NOT WORKING\n");
 				break;
 			}
@@ -71,11 +73,23 @@ int main(){
 			break;
 		case Request:
 			printf("\tClient requested file: %s\n", msg.Message);
-			if(!checkFile(msg.Message)){
+			if(checkFile(msg.Message) == IsFile){
+				sendReply(newsockd, "7");
 				printf("File OK - Accepting request\n");
+				fp = fopen(msg.Message, "r");
+				
+				if(fp == NULL){
+					perror("Error reading file");
+					sendReply(newsockd, "8");
+					exit(0);
+				}
+
+				sendFile(fp, newsockd);
 				break;
 			}
-			printf("\tFile not OK - Sending error message\n");
+			printf("\tFile not OK - Sending reply\n");
+			sendReply(newsockd, "8");
+
 			break;
 		case LsFolder:
 			if (!checkFolder(msg.Message)){
