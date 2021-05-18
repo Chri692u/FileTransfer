@@ -1,4 +1,4 @@
-#define DIR_LENGTH 128
+#define DIR_LENGTH 256
 
 int checkFile(char*);
 int checkFolder(char*);

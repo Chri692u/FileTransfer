@@ -79,8 +79,9 @@ int main(){
 			break;
 		case LsFolder:
 			if (!checkFolder(msg.Message)){
-				printf("\tList of files in folder: %s\n", msg.Message);
-				system("ls");
+				printf("\tDirectory OK - Sending reply\n");
+				reply = lsf(msg.Message);
+				send = sendReply(newsockd, reply.Message);
 				break;
 			}
 			printf("\tDirectory not OK - Sending error message\n");

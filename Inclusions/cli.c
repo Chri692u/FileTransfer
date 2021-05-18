@@ -13,6 +13,17 @@ extern char buffer[MESSAGE_SIZE];
 extern char token[MESSAGE_SIZE];
 extern int lh; /*Look ahead variable*/
 
+void prettyPrintHelp(){
+	system("clear");
+	printf("Help commands:\n");
+	printf("All commands follow this structure: Command Message\n");
+	printf("Quit will close the client\n");
+	printf("Clear will clear screen\n");
+	printf("ls will list all contents of the server\n");
+	printf("Send 'filename' will send a file to the server\n");
+	printf("Req 'filename' will request a file from the server\n");
+	printf("lsf will list the content of a folder on the server\n");
+}
 
 void sendFile(FILE *fp, int socket){
 	char data[BUFFER_SIZE] = {0};

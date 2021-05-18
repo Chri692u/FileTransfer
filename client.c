@@ -73,7 +73,7 @@ int main(){
 
 			break;
 		case Help:
-			printf("\tHelp :D\n");
+			prettyPrintHelp();
 			break;
 		case Send:
 			send = sendMessage(sockd, msg);
@@ -102,8 +102,13 @@ int main(){
 			printf("\tRequesting file: %s from server\n", msg.Message);
 			break;
 		case LsFolder:
-			send = sendMessage(sockd, msg);
 			printf("List of files in folder: %s\n", msg.Message);
+			send = sendMessage(sockd, msg);
+			if(send){
+				serverReply = awaitReply(sockd, reply);
+				checkSend(serverReply);
+				printf("%s", reply);
+			}
 			break;
 		default:
 			printf("\tYou shouldnt be here\n");

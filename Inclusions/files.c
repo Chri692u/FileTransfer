@@ -58,12 +58,17 @@ Message lsf(char* folderName){
 	if(getcwd(cwd, sizeof(cwd)) == NULL){
 		perror("CWD ERROR");
 	}
+	strncat(cwd, "/", DIR_LENGTH - 1);
+	strncat(cwd, folderName, DIR_LENGTH -1);
 	fn = opendir(cwd);
 	if(!fn){
 		perror("Unable to read directory");
 		exit(0);
 	}
 	while ((df = readdir(fn)) != NULL){
+		if( (char)df->d_name[0] == '.'){
+			continue;
+		}
 		strncat(msg.Message, df->d_name, DIR_LENGTH);
 		strncat(msg.Message, "\n", DIR_LENGTH);
 	}
