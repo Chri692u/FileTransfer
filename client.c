@@ -29,23 +29,26 @@ int main(){
 	printf("Command Line Interface is running.\n> ");
 
 	/*do {*/
-
+		/*Creaing socket*/
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
 
+		/*Checking host connection*/
 		server = gethostbyname(serverIP);
 		if(server == NULL){
 			perror("Failed, could not find host");
 			exit(0);
 		}
+
+		/*Asign client struct*/
 		serverAdress.sin_family = AF_INET;
 		serverAdress.sin_addr.s_addr = htonl(INADDR_ANY);
 		serverAdress.sin_port = htons(8080);
 
-
 		/*Zero memory*/
 		memset((char *)&server, 0, sizeof(server));
 
+		/*Connecting to server*/
 		connection = connect(sockd, (struct sockaddr* )&serverAdress, sizeof(serverAdress));
 		checkConnection(connection);
 

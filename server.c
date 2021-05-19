@@ -27,6 +27,7 @@ int main(){
 
 
 	/*do {*/
+		/*Creaing socket*/
 		sockd = socket(AF_INET, SOCK_STREAM, 0);
 		checkDescriptor(sockd);
 
@@ -41,16 +42,17 @@ int main(){
 		/*Binding the socket*/
 		sockbind = bind(sockd, (struct sockaddr* )&server, sizeof(server));
 		checkBinding(sockbind);
+
 		/*Listening*/
 		listen(sockd, 10);
 		printf("Server listening...\n");
 
-		/*Accept Data*/
+		/*Accept connection*/
 		sockSize = sizeof(client);
-
 		newsockd = accept(sockd, (struct sockaddr* )&client, &sockSize);
 		checkAccept(newsockd);
 
+		/*Accept incoming data*/
 		msg = awaitMessage(newsockd);
 		switch (msg.type){
 		case Ls:

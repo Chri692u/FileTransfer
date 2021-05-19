@@ -1,5 +1,5 @@
 void checkDescriptor(int);
-void checkConnection(int connection);
+void checkConnection(int);
 void checkBinding(int);
 void checkAccept(int);
 void checkSend(int);
