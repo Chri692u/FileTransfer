@@ -68,7 +68,8 @@ int main(){
 			if (!checkFolder(msg.Message)){
 				printf("\tDirectory OK - Sending reply\n");
 				reply = lsf(msg.Message);
-				send(newsockd, reply.Message, sizeof(reply.Message),0);
+				success = send(newsockd, reply.Message, sizeof(reply.Message),0);
+				checkSend(success);
 				break;
 			}
 			printf("\tDirectory not OK - Sending error message\n");
@@ -84,7 +85,6 @@ int main(){
 			}
 			printf("\tFile not OK - Sending reply\n");
 			sendReply(newsockd, "7");
-
 			break;
 		case Request:
 			printf("\tClient requested file: %s\n", msg.Message);
