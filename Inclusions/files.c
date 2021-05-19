@@ -45,6 +45,7 @@ Message ls() {
 		strncat(msg.Message, df->d_name, DIR_LENGTH);
 		strncat(msg.Message, "\n", DIR_LENGTH);
 	}
+
 	return msg;
 }
 

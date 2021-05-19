@@ -32,6 +32,7 @@ int sendReply(int, char*);
 /*Return type void*/
 void getNextToken();
 void prettyPrintHelp();
+void LsCommand(int, Message);
 void readNextLine();
 void skipWhiteSpace();
 void sendFile(FILE*, int);

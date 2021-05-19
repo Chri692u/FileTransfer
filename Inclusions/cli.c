@@ -29,7 +29,6 @@ Message awaitMessage(int sockd) {
 
 	strncpy(msg.Message,type,sizeof(msg.Message));
 	memset(&data, 0, sizeof(data));
-
 	return msg;
 }
 
@@ -186,7 +185,13 @@ void writeFile(int socket, Message msg){
 	return;
 }
 
+void LsCommand(int sockd, Message msg) {
+	Message list;
 
+	sendMessage(sockd, msg);
+	list = awaitMessage(sockd);
+	printf("\tList of files:\n%s", list.Message);
+}
 
 
 
