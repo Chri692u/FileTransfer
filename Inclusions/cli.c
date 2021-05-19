@@ -8,6 +8,7 @@
 #include <netdb.h>
 #include <sys/types.h>
 #include "cli.h"
+#include "sockets.h"
 
 extern char buffer[MESSAGE_SIZE];
 extern char token[MESSAGE_SIZE];

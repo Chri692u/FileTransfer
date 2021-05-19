@@ -17,7 +17,7 @@ int lh;
 
 int main(){
 
-	int running = 1, send, serverReply, sockd, connection;
+	int running, send, serverReply, sockd, connection;
 	Message  msg;
 	char reply[MESSAGE_SIZE];
 	char* serverIP = "127.0.0.1";
@@ -25,7 +25,6 @@ int main(){
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
 	FILE *fp;
-	char *fileName = "test.txt";
 	printf("Command Line Interface is running.\n> ");
 
 	/*do {*/
@@ -58,6 +57,7 @@ int main(){
 		case Quit:
 			printf("\tQuiting...\n");
 			running = 0;
+			printf("haha %d", running);
 			break;
 		case Clear:
 			system("clear");
