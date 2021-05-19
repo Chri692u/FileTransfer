@@ -163,6 +163,30 @@ void sendFile(FILE *fp, int socket){
 	}
 }
 
+void sendFileCommand(int sockd, Message msg){
+	FILE *fp;
+	int serverReply;
+	char reply[MESSAGE_SIZE], *errType;
+
+	sendMessage(sockd, msg);
+	serverReply = awaitReply(sockd, reply);
+	checkSend(serverReply);
+
+	if(strtol(reply, &errType,10) == IsFile){
+		printf("File already exists on server\n");
+		exit(0);
+	}
+
+	fp = fopen(msg.Message, "r");
+
+	if(fp == NULL){
+		perror("Error reading file");
+		exit(0);
+	}
+
+	sendFile(fp,sockd);
+}
+
 void writeFile(int socket, Message msg){
 	int n;
 	FILE *fp;

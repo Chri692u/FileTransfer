@@ -37,4 +37,5 @@ void LsfCommand(int, Message);
 void readNextLine();
 void skipWhiteSpace();
 void sendFile(FILE*, int);
+void sendFileCommand(int, Message);
 void writeFile(int, Message);

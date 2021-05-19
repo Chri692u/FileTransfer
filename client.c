@@ -18,7 +18,6 @@ int lh;
 int main(){
 
 	Message  msg;
-	FILE *fp;
 
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
@@ -74,24 +73,7 @@ int main(){
 			prettyPrintHelp();
 			break;
 		case Send:
-			sendMessage(sockd, msg);
-			serverReply = awaitReply(sockd, reply);
-			checkSend(serverReply);
-
-			if(strtol(reply, &errType,10) == IsFile){
-				printf("File already exists on server\n");
-				exit(0);
-			}
-
-			fp = fopen(msg.Message, "r");
-
-			if(fp == NULL){
-				perror("Error reading file");
-				exit(0);
-			}
-
-			sendFile(fp,sockd);
-
+			sendFileCommand(sockd, msg);
 			break;
 		case Request:
 			printf("\tRequesting file: %s from server\n", msg.Message);
