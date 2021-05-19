@@ -17,15 +17,15 @@ int lh;
 
 int main(){
 
-	int running, serverReply, sockd, connection;
-	Message  msg;
-	Message list;
-	char reply[MESSAGE_SIZE];
-	char* serverIP = "127.0.0.1";
-	char* errType;
+	Message  msg, list;
+	FILE *fp;
+
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
-	FILE *fp;
+
+	int running, serverReply, sockd, connection;
+	char reply[MESSAGE_SIZE], *serverIP = "127.0.0.1", *errType;
+
 	printf("Command Line Interface is running.\n> ");
 
 	/*do {*/

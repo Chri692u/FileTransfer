@@ -18,12 +18,15 @@ char buffer[MESSAGE_SIZE];
 int lh;
 
 int main(){
-	int running = 1, sockd, sockbind, len, newsockd;
-	struct sockaddr_in server, client;
-	socklen_t sockSize;
-	Message msg;
-	Message reply;
+
+	Message msg, reply;
+
 	FILE *fp;
+
+	socklen_t sockSize;
+	struct sockaddr_in server, client;
+
+	int running = 1, sockd, sockbind, len, newsockd;
 
 
 	/*do {*/
