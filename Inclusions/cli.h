@@ -15,19 +15,24 @@ enum MessageType{
 	Request,
 	LsFolder,
 	IsFile,
-	NoFile,
-	Recieved
+	NoFile
 };
 
 /*Prototypes*/
+
+/*Return type Message*/
+Message awaitMessage(int);
+Message parseMessage();
+
+/*Return type int*/
+int awaitReply(int, char*);
+int sendMessage(int, Message);
+int sendReply(int, char*);
+
+/*Return type void*/
+void getNextToken();
+void prettyPrintHelp();
 void readNextLine();
 void skipWhiteSpace();
-void getNextToken();
-void sendFile(FILE *fp, int socket);
-void writeFile(int socket, Message msg);
-Message parseMessage();
-int sendMessage(int, Message);
-Message awaitMessage(int);
-int sendReply(int sockd, char* reply);
-int awaitReply(int sockd, char* reply);
-void prettyPrintHelp();
+void sendFile(FILE*, int);
+void writeFile(int, Message);
