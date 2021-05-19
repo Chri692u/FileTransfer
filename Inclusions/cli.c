@@ -22,8 +22,7 @@ Message awaitMessage(int sockd) {
 	Message msg;
 
 
-	success = read(sockd, data, sizeof(data));
-
+	success = recv(sockd, data, sizeof(data),0);
 	checkSuccess(success);
 
 	msg.type = strtol(data, &type,10);
@@ -83,7 +82,7 @@ int sendMessage(int sockd, Message msg) {
 	sprintf(type, "%d",msg.type);
 	strncat(type, msg.Message, MESSAGE_SIZE);
 
-	success = write(sockd, type, sizeof(type));
+	success = send(sockd, type, sizeof(type),0);
 	checkSuccess(success);
 
 	return 1;
