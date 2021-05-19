@@ -18,7 +18,7 @@ char buffer[MESSAGE_SIZE];
 int lh;
 
 int main(){
-	int running = 1, sockd, sockbind, len, newsockd, send;
+	int running = 1, sockd, sockbind, len, newsockd;
 	struct sockaddr_in server, client;
 	socklen_t sockSize;
 	Message msg;
@@ -56,7 +56,7 @@ int main(){
 		case Ls:
 			printf("List of files command recieved:\n");
 			reply = ls();
-			send = write(newsockd, reply.Message, sizeof(reply.Message));
+			send(newsockd, reply.Message, sizeof(reply.Message), 0);
 			break;
 		case Send:
 			printf("\tIncoming file: %s\n", msg.Message);
@@ -95,7 +95,7 @@ int main(){
 			if (!checkFolder(msg.Message)){
 				printf("\tDirectory OK - Sending reply\n");
 				reply = lsf(msg.Message);
-				send = write(newsockd, reply.Message, sizeof(reply.Message));
+				send(newsockd, reply.Message, sizeof(reply.Message),0);
 				break;
 			}
 			printf("\tDirectory not OK - Sending error message\n");

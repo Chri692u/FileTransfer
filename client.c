@@ -68,13 +68,6 @@ int main(){
 			sendMessage(sockd, msg);
 			list = awaitMessage(sockd);
 			printf("\tList of files:\n%s", list.Message);
-			/*
-			if (send){
-				serverReply = awaitReply(sockd, reply);
-				checkSend(serverReply);
-				printf("%s", reply);
-			}
-			*/
 			break;
 		case Help:
 			printf("\tHelp :D\n");
@@ -88,7 +81,6 @@ int main(){
 				printf("File already exists on server\n");
 				exit(0);
 			}
-
 
 			fp = fopen(msg.Message, "r");
 
