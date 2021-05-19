@@ -26,7 +26,7 @@ int main(){
 	socklen_t sockSize;
 	struct sockaddr_in server, client;
 
-	int running = 1, sockd, sockbind, len, newsockd;
+	int running = 1, sockd, sockbind, len, newsockd, success;
 
 
 	/*do {*/
@@ -61,7 +61,17 @@ int main(){
 		case Ls:
 			printf("List of files command recieved:\n");
 			reply = ls();
-			send(newsockd, reply.Message, sizeof(reply.Message), 0);
+			success = send(sockd, reply.Message, sizeof(reply.Message), 0);
+			checkSend(success);
+			break;
+		case LsFolder:
+			if (!checkFolder(msg.Message)){
+				printf("\tDirectory OK - Sending reply\n");
+				reply = lsf(msg.Message);
+				send(newsockd, reply.Message, sizeof(reply.Message),0);
+				break;
+			}
+			printf("\tDirectory not OK - Sending error message\n");
 			break;
 		case Send:
 			printf("\tIncoming file: %s\n", msg.Message);
@@ -95,15 +105,6 @@ int main(){
 			printf("\tFile not OK - Sending reply\n");
 			sendReply(newsockd, "8");
 
-			break;
-		case LsFolder:
-			if (!checkFolder(msg.Message)){
-				printf("\tDirectory OK - Sending reply\n");
-				reply = lsf(msg.Message);
-				send(newsockd, reply.Message, sizeof(reply.Message),0);
-				break;
-			}
-			printf("\tDirectory not OK - Sending error message\n");
 			break;
 		}
 		close(newsockd);

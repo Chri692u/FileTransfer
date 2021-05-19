@@ -31,6 +31,7 @@ int sendReply(int, char*);
 
 /*Return type void*/
 void getNextToken();
+/*void getFile(int, Message); - NOT WORKING ATM*/
 void prettyPrintHelp();
 void LsCommand(int, Message);
 void LsfCommand(int, Message);

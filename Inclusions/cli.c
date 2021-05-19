@@ -9,6 +9,7 @@
 #include <sys/types.h>
 #include "cli.h"
 #include "sockets.h"
+/*#include "files.h" - NOT WORKING*/
 
 extern char buffer[MESSAGE_SIZE];
 extern char token[MESSAGE_SIZE];
@@ -204,6 +205,21 @@ void sendFileCommand(int sockd, Message msg){
 	sendFile(fp,sockd);
 }
 
+/* Not working atm
+void getFile(int sockd, Message msg) {
+
+	printf("\tIncoming file: %s\n", msg.Message);
+	if (checkFile(msg.Message) != IsFile){
+		sendReply(sockd, "8");
+		writeFile(sockd, msg);
+
+		printf("\tFile OK - Sending reply NOT WORKING\n");
+		return;
+	}
+	printf("\tFile not OK - Sending reply\n");
+	sendReply(sockd, "7");
+}
+*/
 void writeFile(int socket, Message msg){
 	int n;
 	FILE *fp;
