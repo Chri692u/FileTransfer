@@ -19,6 +19,7 @@ int main(){
 
 	int running, send, serverReply, sockd, connection;
 	Message  msg;
+	Message list;
 	char reply[MESSAGE_SIZE];
 	char* serverIP = "127.0.0.1";
 	char* errType;
@@ -63,17 +64,20 @@ int main(){
 			system("clear");
 			break;
 		case Ls:
-			printf("\tList of files:\n");
+			
 			send = sendMessage(sockd, msg);
+			list = awaitMessage(sockd);
+			printf("\tList of files:\n%s", list.Message);
+			/*
 			if (send){
 				serverReply = awaitReply(sockd, reply);
 				checkSend(serverReply);
 				printf("%s", reply);
 			}
-
+			*/
 			break;
 		case Help:
-			prettyPrintHelp();
+			printf("\tHelp :D\n");
 			break;
 		case Send:
 			send = sendMessage(sockd, msg);
@@ -111,13 +115,9 @@ int main(){
 
 			break;
 		case LsFolder:
-			printf("List of files in folder: %s\n", msg.Message);
 			send = sendMessage(sockd, msg);
-			if(send){
-				serverReply = awaitReply(sockd, reply);
-				checkSend(serverReply);
-				printf("%s", reply);
-			}
+			list = awaitMessage(sockd);
+			printf("List of files in folder: %s\n%s",msg.Message, list.Message);
 			break;
 		default:
 			printf("\tYou shouldnt be here\n");

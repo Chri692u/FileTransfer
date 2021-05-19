@@ -54,9 +54,9 @@ int main(){
 		msg = awaitMessage(newsockd);
 		switch (msg.type){
 		case Ls:
-			printf("\tList of files:\n");
+			printf("List of files command recieved:\n");
 			reply = ls();
-			send = sendReply(newsockd, reply.Message);
+			send = write(newsockd, reply.Message, sizeof(reply.Message));
 			break;
 		case Send:
 			printf("\tIncoming file: %s\n", msg.Message);
@@ -77,7 +77,7 @@ int main(){
 				sendReply(newsockd, "7");
 				printf("File OK - Accepting request\n");
 				fp = fopen(msg.Message, "r");
-				
+
 				if(fp == NULL){
 					perror("Error reading file");
 					sendReply(newsockd, "8");
@@ -95,7 +95,7 @@ int main(){
 			if (!checkFolder(msg.Message)){
 				printf("\tDirectory OK - Sending reply\n");
 				reply = lsf(msg.Message);
-				send = sendReply(newsockd, reply.Message);
+				send = write(newsockd, reply.Message, sizeof(reply.Message));
 				break;
 			}
 			printf("\tDirectory not OK - Sending error message\n");
