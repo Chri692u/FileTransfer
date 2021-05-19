@@ -17,13 +17,13 @@ int lh;
 
 int main(){
 
-	Message  msg, list;
+	Message  msg;
 	FILE *fp;
 
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
 
-	int running, serverReply, sockd, connection;
+	int serverReply, sockd, connection;
 	char reply[MESSAGE_SIZE], *serverIP = "127.0.0.1", *errType;
 
 	printf("Command Line Interface is running.\n> ");
@@ -56,24 +56,22 @@ int main(){
 		readNextLine();
 		msg = parseMessage();
 
-
 		switch (msg.type){
 		case Quit:
 			printf("\tQuiting...\n");
-			running = 0;
-			printf("haha %d", running);
+			/*running = 0;*/
 			break;
 		case Clear:
 			system("clear");
 			break;
 		case Ls:
-
-			sendMessage(sockd, msg);
-			list = awaitMessage(sockd);
-			printf("\tList of files:\n%s", list.Message);
+			LsCommand(sockd, msg);
+			break;
+		case LsFolder:
+			LsfCommand(sockd, msg);
 			break;
 		case Help:
-			printf("\tHelp :D\n");
+			prettyPrintHelp();
 			break;
 		case Send:
 			sendMessage(sockd, msg);
@@ -108,11 +106,6 @@ int main(){
 
 			writeFile(sockd, msg);
 
-			break;
-		case LsFolder:
-			sendMessage(sockd, msg);
-			list = awaitMessage(sockd);
-			printf("List of files in folder: %s\n%s",msg.Message, list.Message);
 			break;
 		default:
 			printf("\tYou shouldnt be here\n");

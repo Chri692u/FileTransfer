@@ -10,10 +10,10 @@ enum MessageType{
 	Quit,
 	Clear,
 	Ls,
+	LsFolder,
 	Help,
 	Send,
 	Request,
-	LsFolder,
 	IsFile,
 	NoFile
 };
@@ -33,6 +33,7 @@ int sendReply(int, char*);
 void getNextToken();
 void prettyPrintHelp();
 void LsCommand(int, Message);
+void LsfCommand(int, Message);
 void readNextLine();
 void skipWhiteSpace();
 void sendFile(FILE*, int);

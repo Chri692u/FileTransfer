@@ -193,6 +193,9 @@ void LsCommand(int sockd, Message msg) {
 	printf("\tList of files:\n%s", list.Message);
 }
 
-
-
-
+void LsfCommand(int sockd, Message msg) {
+	Message list;
+	sendMessage(sockd, msg);
+	list = awaitMessage(sockd);
+	printf("List of files in folder: %s\n%s",msg.Message, list.Message);
+}
