@@ -10,6 +10,7 @@
 #include "inclusions/cli.h"
 #include "Inclusions/sockets.h"
 
+
 /*Globals*/
 char token[MESSAGE_SIZE];
 char buffer[MESSAGE_SIZE];
@@ -73,6 +74,12 @@ int main(){
 			prettyPrintHelp();
 			break;
 		case Send:
+		 	/*
+			if (checkFile(msg.Message) != IsFile){
+				printf("Cannot find file: %s\n", msg.Message);
+				exit(0);
+			}
+			*/
 			sendFileCommand(sockd, msg);
 			break;
 		case Request:

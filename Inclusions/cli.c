@@ -170,6 +170,7 @@ void skipWhiteSpace() {
 }
 
 void sendFile(FILE *fp, int socket){
+
 	char data[BUFFER_SIZE] = {0};
 
 	while(fgets(data,BUFFER_SIZE,fp) != NULL){
@@ -186,6 +187,7 @@ void sendFileCommand(int sockd, Message msg){
 	int serverReply;
 	char reply[MESSAGE_SIZE], *errType;
 
+
 	sendMessage(sockd, msg);
 	serverReply = awaitReply(sockd, reply);
 	checkSend(serverReply);
@@ -194,6 +196,7 @@ void sendFileCommand(int sockd, Message msg){
 		printf("File already exists on server\n");
 		exit(0);
 	}
+
 
 	fp = fopen(msg.Message, "r");
 
