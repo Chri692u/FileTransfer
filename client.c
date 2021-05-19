@@ -17,7 +17,7 @@ int lh;
 
 int main(){
 
-	int running, send, serverReply, sockd, connection;
+	int running, serverReply, sockd, connection;
 	Message  msg;
 	Message list;
 	char reply[MESSAGE_SIZE];
@@ -64,8 +64,8 @@ int main(){
 			system("clear");
 			break;
 		case Ls:
-			
-			send = sendMessage(sockd, msg);
+
+			sendMessage(sockd, msg);
 			list = awaitMessage(sockd);
 			printf("\tList of files:\n%s", list.Message);
 			/*
@@ -80,7 +80,7 @@ int main(){
 			printf("\tHelp :D\n");
 			break;
 		case Send:
-			send = sendMessage(sockd, msg);
+			sendMessage(sockd, msg);
 			serverReply = awaitReply(sockd, reply);
 			checkSend(serverReply);
 
@@ -102,7 +102,7 @@ int main(){
 			break;
 		case Request:
 			printf("\tRequesting file: %s from server\n", msg.Message);
-			send = sendMessage(sockd, msg);
+			sendMessage(sockd, msg);
 			serverReply = awaitReply(sockd, reply);
 			checkSend(serverReply);
 
@@ -115,7 +115,7 @@ int main(){
 
 			break;
 		case LsFolder:
-			send = sendMessage(sockd, msg);
+			sendMessage(sockd, msg);
 			list = awaitMessage(sockd);
 			printf("List of files in folder: %s\n%s",msg.Message, list.Message);
 			break;

@@ -69,7 +69,6 @@ int awaitReply(int sockd, char* reply){
 	int success;
 
 	success = recv(sockd, reply, sizeof(reply),0);
-	puts(reply);
 	checkSuccess(success);
 
 	return 1;

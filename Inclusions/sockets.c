@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include "cli.h"
 
+
+/*Error handling*/
 void checkDescriptor(int sockd) {
 	if (sockd == -1) {
 		perror("Failed to create socket");
