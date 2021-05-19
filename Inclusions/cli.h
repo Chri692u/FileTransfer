@@ -35,6 +35,7 @@ void prettyPrintHelp();
 void LsCommand(int, Message);
 void LsfCommand(int, Message);
 void readNextLine();
+void requestFileCommand(int, Message);
 void skipWhiteSpace();
 void sendFile(FILE*, int);
 void sendFileCommand(int, Message);

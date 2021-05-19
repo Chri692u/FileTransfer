@@ -22,8 +22,8 @@ int main(){
 	struct sockaddr_in serverAdress;
 	struct hostent *server;
 
-	int serverReply, sockd, connection;
-	char reply[MESSAGE_SIZE], *serverIP = "127.0.0.1", *errType;
+	int sockd, connection;
+	char *serverIP = "127.0.0.1";
 
 	printf("Command Line Interface is running.\n> ");
 
@@ -76,18 +76,7 @@ int main(){
 			sendFileCommand(sockd, msg);
 			break;
 		case Request:
-			printf("\tRequesting file: %s from server\n", msg.Message);
-			sendMessage(sockd, msg);
-			serverReply = awaitReply(sockd, reply);
-			checkSend(serverReply);
-
-			if(strtol(reply, &errType,10) == NoFile){
-				printf("File does not exist on server\n");
-				exit(0);
-			}
-
-			writeFile(sockd, msg);
-
+			requestFileCommand(sockd, msg);
 			break;
 		default:
 			printf("\tYou shouldnt be here\n");

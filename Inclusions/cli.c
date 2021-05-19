@@ -127,6 +127,23 @@ void prettyPrintHelp(){
 	printf("lsf will list the content of a folder on the server\n");
 }
 
+void requestFileCommand(int sockd, Message msg){
+	int serverReply;
+	char reply[MESSAGE_SIZE], *errType;
+
+	printf("\tRequesting file: %s from server\n", msg.Message);
+	sendMessage(sockd, msg);
+	serverReply = awaitReply(sockd, reply);
+	checkSend(serverReply);
+
+	if(strtol(reply, &errType,10) == NoFile){
+		printf("File does not exist on server\n");
+		exit(0);
+	}
+
+	writeFile(sockd, msg);
+}
+
 void readNextLine(){
 	int i = 0;
 	lh = 0;
